@@ -1,7 +1,29 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { fileURLToPath, URL } from 'url'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-    plugins: [react()],
-    base: '/domiMascontrol/'
+    base: '/domiMascontrol/',
+    plugins: [
+        vue({
+            template: {
+                transformAssetUrls: {
+                    includeAbsolute: false,
+                },
+            },
+        }),
+    ],
+
+
+
+    build: {
+        // salida de la build (fuera de resources)
+        outDir: fileURLToPath(new URL('./dist', import.meta.url)),
+        rollupOptions: {
+            // punto de entrada HTML
+            input: fileURLToPath(
+                new URL('./index.html', import.meta.url)
+            ),
+        },
+    },
 })
